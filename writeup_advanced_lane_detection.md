@@ -52,8 +52,8 @@ First we get the calibration object and image points by using the Chessboard ima
 
 Sample output is given as below:
 
-![Original Image][./test_images/straight_lines1.jpg]
-![Camera Calibrated Image][./output_images/straight_lines1_undistort.jpg]
+![Original Image](./test_images/straight_lines1.jpg)
+![Camera Calibrated Image](./output_images/straight_lines1_undistort.jpg)
 
 Output for other sample images are stored in 'output_images' folder with '_undistort' suffix.
 
@@ -61,7 +61,7 @@ Output for other sample images are stored in 'output_images' folder with '_undis
 
 I used a combination of color and gradient thresholds to generate a binary image. The code is defined in a function called `custom_thresh()`. Here's an example of my output for this step. 
 
-![Color Transformed Image][./output_images/straight_lines1_mag_gradient.jpg]
+![Color Transformed Image](./output_images/straight_lines1_mag_gradient.jpg)
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
@@ -86,20 +86,20 @@ dst = np.float32([
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![Perspective Transformed Image][./output_images/straight_lines1_perspective_trasformed.jpg]
+![Perspective Transformed Image](./output_images/straight_lines1_perspective_trasformed.jpg)
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 From the 'Advanced Computer Vision', I referred the code to try out different ways to detect the lanes. I tried running the different methods like using histogram, sliding window given in the lesson on given input images and some of the samples are as below:
 
-![Lane detection using Windowing method][./output_images/straight_lines2_lane_window.jpg]
-![Lane detection using polynomial function][./output_images/straight_lines2_lane_roi.jpg]
+![Lane detection using Windowing method](./output_images/straight_lines2_lane_window.jpg)
+![Lane detection using polynomial function](./output_images/straight_lines2_lane_roi.jpg)
 
 After lot of trial and error, I finalized the lane detection pipeline which is defined in a function called `draw_lanes()`. Here I use windowing, then take the histogram of left half and right half of the image to distinguish between left and right lanes. After that I use combination of polynomial functions and polyfit for top and bottom of the lane image so that the polygon is completely fit on the real image properly. I faced some issues where lanes were broken, lanes were further away, etc. hence filled in the polygon from top to bottom using partial lane lines.
 
 Final output looked as below (with lane drawn on the real image, along with Radius of curvature and Car position from center):
 
-![Lane detection using combination of polynomial functions][./output_images/straight_lines2_lane_final.jpg]
+![Lane detection using combination of polynomial functions](./output_images/straight_lines2_lane_final.jpg)
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature (RoC) of the lane and the position of the vehicle with respect to center.
 
@@ -109,13 +109,13 @@ R = ((1+(2Ay+B)^2)^1.5) / |2A|,
 
 where A and B are the first and second order derivate of the polynomial function (of degree 2), respectively.
 
-![Lane detection with Radius of Curvature][./output_images/straight_lines2_lane_final.jpg]
+![Lane detection with Radius of Curvature](./output_images/straight_lines2_lane_final.jpg)
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
 I implemented the plotting of detected lane (from perspective transformed image) onto real image in the function `draw_lanes()`.  Here is an example of my result on a test image:
 
-![Lane detection mapped on Real Image][./output_images/straight_lines2_lane_final.jpg]
+![Lane detection mapped on Real Image](./output_images/straight_lines2_lane_final.jpg)
 
 To map the lines from perspective image back to the real image, we use the inverse matrix of perspective transformation by passing (destionation, source) points to the getPerspectiveTransform() function.
 
